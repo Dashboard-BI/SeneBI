@@ -67,7 +67,22 @@ composer install
 npm install
 
 ---
+🔹A.  Configurer la connexion MySQL dans fichier .env
+      DB_CONNECTION=mysql
+      DB_HOST=127.0.0.1
+      DB_PORT=3306
+      DB_DATABASE=nom_de_ta_base
+      DB_USERNAME=root
+      DB_PASSWORD=ton_mot_de_passe
+       
+       Exemple :
+      DB_DATABASE=laravel_app
+      DB_USERNAME=root
+      DB_PASSWORD=
 
+    Puis change : 
+      SESSION_DRIVER=database
+      
 🔹 7. Lancer le projet
 npm run dev
 php artisan serve
