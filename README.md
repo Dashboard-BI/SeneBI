@@ -1,5 +1,5 @@
 # Dashboard_BI
-Application de gestion des visites
+Application BI
 
 This is BI Intelligent
 # Installation de Laravel
