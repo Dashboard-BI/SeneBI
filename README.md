@@ -56,7 +56,6 @@ npm -v
 
 🔹 5. Créer ton projet Laravel
 Dans le terminal :
-
 laravel new mon-app
 cd mon-app
 
