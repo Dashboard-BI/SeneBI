@@ -1,6 +1,6 @@
 # Dashboard_BI
 Application BI
-
+ 
 This is BI Intelligent
 # Installation de Laravel
 Salut Adjaratou Ouane, Aminata Sangare, Alhassane Magassououba,  Sidi Mhd Sangare,  Cheick O Maiga ...
