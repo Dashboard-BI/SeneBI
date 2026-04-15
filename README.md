@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 # Dashboard_BI
 Application BI
 
@@ -108,5 +109,10 @@ Si tu as un problème, envoie-moi une capture 👍
 
   
 
+=======
+<<<<<<< HEAD
+>>>>>>> 11ba5f9854f326b5394bbd9421de901f9dbc1d7c
 
+=======
 
+>>>>>>> 6443f9eaa7950544a2ac0c35ff28983642c4bb11
