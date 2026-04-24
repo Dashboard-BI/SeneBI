@@ -1,0 +1,90 @@
+<!doctype html>
+<html lang="fr">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>SeneBI - Portail securise</title>
+    <link rel="stylesheet" href="{{ asset('css/base.css') }}" />
+    <link rel="stylesheet" href="{{ asset('css/auth.css') }}" />
+  </head>
+  <body data-page="auth-portal">
+    <div class="app">
+      <div data-layout="header"></div>
+      <main class="portal-shell container">
+        <section class="portal-head card">
+          <div class="portal-brand-wrap">
+            <img class="portal-logo" src=".img/logo.png" alt="Logo SeneBI" />
+            <div>
+              <h1>Panel d'Administration SeneBI</h1>
+              <p id="welcomeText">Bienvenue.</p>
+            </div>
+          </div>
+          <div class="portal-actions">
+            <span id="roleBadge" class="tag muted">Role</span>
+          </div>
+        </section>
+
+        <section class="card section-shell" id="adminPanel" hidden>
+          <div class="section-head">
+            <h2>Administration des comptes</h2>
+            <p>Ajoutez des clients, attribuez des managers et bloquez des comptes si necessaire.</p>
+          </div>
+          <div class="admin-stats" id="adminStats"></div>
+          <div class="admin-grid">
+            <section class="admin-block admin-block--add" aria-labelledby="admin-add-title">
+              <h3 id="admin-add-title" class="admin-block-title">Ajouter un utilisateur</h3>
+              <div class="admin-add-layout">
+                <form id="createUserForm" class="auth-form mini admin-create-form">
+                  <div class="admin-form-grid">
+                    <div class="form-field">
+                      <label for="newName">Nom complet</label>
+                      <input id="newName" type="text" required autocomplete="name" />
+                    </div>
+                    <div class="form-field">
+                      <label for="newCompany">Entreprise</label>
+                      <input id="newCompany" type="text" required autocomplete="organization" />
+                    </div>
+                    <div class="form-field form-field--full">
+                      <label for="newEmail">Email</label>
+                      <input id="newEmail" type="email" required autocomplete="email" />
+                    </div>
+                    <div class="form-field">
+                      <label for="newRole">Rôle</label>
+                      <select id="newRole">
+                        <option value="client">Client</option>
+                        <option value="manager">Manager</option>
+                        <option value="admin">Admin</option>
+                      </select>
+                    </div>
+                  </div>
+                  <div class="admin-form-footer">
+                    <button class="btn" type="submit">Ajouter l'utilisateur</button>
+                    <div id="adminFeedback" class="form-feedback" aria-live="polite"></div>
+                  </div>
+                </form>
+                <aside class="admin-add-aside" aria-label="Aide à la création de compte">
+                  <h4 class="admin-aside-title">Bonnes pratiques</h4>
+                  <ul class="admin-aside-list">
+                    <li>Un mot de passe provisoire est généré automatiquement après la création.</li>
+                    <li>
+                      Les <strong>managers</strong> gèrent le terrain ; les <strong>clients</strong> ont une vue synthétique.
+                    </li>
+                    <li>En cas d’oubli de mot de passe, utilisez <strong>Régénérer l’accès</strong> dans la liste des comptes.</li>
+                  </ul>
+                </aside>
+              </div>
+            </section>
+            <section class="admin-block" aria-labelledby="admin-list-title">
+              <h3 id="admin-list-title" class="admin-block-title">Liste des comptes</h3>
+              <div id="usersList" class="users-list"></div>
+            </section>
+          </div>
+        </section>
+      </main>
+      <div data-layout="footer"></div>
+    </div>
+    <script src="{{ asset('js/layout.js') }}"></script>
+    <script src="{{ asset('js/core.js') }}"></script>
+    <script src="{{ asset('js/auth.js') }}"></script>
+  </body>
+</html>
