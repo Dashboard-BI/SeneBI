@@ -3,144 +3,163 @@
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
-    <title>SeneBI — Dashboard</title>
-    {{-- Chargement des styles depuis le dossier public/css --}}
-    <link rel="stylesheet" href="{{ asset('css/base.css') }}" />
-    <link rel="stylesheet" href="{{ asset('css/dashboard.css') }}" />
+    <title>SeneBI — Stocks</title>
+    <link rel="stylesheet" href="{{ asset('assets/css/base.css') }}" />
+    <link rel="stylesheet" href="{{ asset('assets/css/stocks.css') }}" />
   </head>
-  <body data-page="dashboard">
+  <body data-page="stocks">
     <div class="app">
-      {{-- Note : Si tu as un fichier header.blade.php, utilise @include('header') ici --}}
       <div data-layout="header"></div>
 
       <main class="container">
         <div class="page-title">
           <div>
-            <h1>Tableau de Bord Analytique</h1>
-            <p>Vue d'ensemble des performances agricoles, avec analyse des tendances et alertes opérationnelles.</p>
+            <h1>Suivi des Stocks & Intrants</h1>
+            <p>Inventaire en temps reel et alertes de seuil critique</p>
           </div>
         </div>
 
-        <div id="stockAlert" class="alert-banner">
-          <div id="stockAlertText">Alerte Stock</div>
-          {{-- CORRECTION : Lien vers la route Laravel /stocks au lieu du .html --}}
-          <a class="btn danger" href="/stocks">Voir le stock</a>
+        <div id="stocksLocalAlert" class="alert-banner">
+          <div class="alert-main">
+            <div class="alert-icon">!</div>
+            <div>
+              <h3>Alerte Stock Critique</h3>
+              <p id="stocksLocalAlertText">Aucun intrant critique pour le moment.</p>
+              <div class="alert-chip" id="criticalChip">-</div>
+            </div>
+          </div>
         </div>
 
-        <section class="grid kpis">
-          <article class="card">
-            <div class="card-header">
-              <p class="card-title">Total Récolté</p>
-              <div class="card-icon" aria-hidden="true">
-                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                  <path d="M12 2v20"/><path d="M7 6c2 2 2 4 0 6"/><path d="M17 6c-2 2-2 4 0 6"/><path d="M7 12c2 2 2 4 0 6"/><path d="M17 12c-2 2-2 4 0 6"/>
-                </svg>
-              </div>
-            </div>
-            <div class="kpi-value"><span id="kpiTotalHarvest">0</span> <span class="muted" style="font-size:14px;font-weight:700;">kg</span></div>
-            <div class="kpi-sub">
-              <span>+12.5% vs. période précédente</span>
-              <span class="muted">Basé sur les saisies de récoltes</span>
+        <section class="grid cards-2 kpi-row" id="inventoryCards"></section>
+
+        <section class="grid cards-2 stocks-extra-row">
+          <article class="card stock-gauge-card">
+            <h3 class="section-title">Remplissage global (capacite)</h3>
+            <p class="small muted">Vue jauge : stock actuel vs capacite totale (engrais + semences)</p>
+            <div class="gauge-chart-wrap">
+              <canvas id="stockGaugeChart" aria-label="Jauge de remplissage du stock"></canvas>
+              <div class="gauge-center-label" id="stockGaugePct">0%</div>
             </div>
           </article>
-
           <article class="card">
-            <div class="card-header">
-              <p class="card-title">Chiffre d'Affaires estimé</p>
-              <div class="card-icon" aria-hidden="true">
-                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                  <path d="M21 12a9 9 0 1 1-18 0 9 9 0 0 1 18 0z"/><path d="M12 7v10"/><path d="M9.5 9.5c.6-1 4.4-1 5 0"/><path d="M9.5 14.5c.6 1 4.4 1 5 0"/>
-                </svg>
-              </div>
-            </div>
-            <div class="kpi-value"><span id="kpiCA">0</span> <span class="muted" style="font-size:14px;font-weight:700;">M FCFA</span></div>
-            <div class="kpi-sub">
-              <span>+8.3% vs. période précédente</span>
-              <span class="muted">Prix moyen × quantité récoltée</span>
-            </div>
-          </article>
-
-          <article class="card">
-            <div class="card-header">
-              <p class="card-title">Hectares Actifs</p>
-              <div class="card-icon" aria-hidden="true">
-                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                  <path d="M12 21s7-4.5 7-11a7 7 0 0 0-14 0c0 6.5 7 11 7 11z"/><path d="M12 10a2 2 0 1 0 0-4 2 2 0 0 0 0 4z"/>
-                </svg>
-              </div>
-            </div>
-            <div class="kpi-value"><span id="kpiHa">0</span> <span class="muted" style="font-size:14px;font-weight:700;">ha</span></div>
-            <div class="kpi-sub">
-              <span>+5.2% vs. période précédente</span>
-              <span class="muted">Parcelles hors jachère</span>
-            </div>
-          </article>
-
-          <article class="card">
-            <div class="card-header">
-              <p class="card-title">Rendement Moyen</p>
-              <div class="card-icon" aria-hidden="true">
-                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                  <path d="M3 17l6-6 4 4 7-7"/><path d="M14 8h6v6"/>
-                </svg>
-              </div>
-            </div>
-            <div class="kpi-value"><span id="kpiRend">0</span> <span class="muted" style="font-size:14px;font-weight:700;">t/ha</span></div>
-            <div class="kpi-sub">
-              <span>+3.1% vs. période précédente</span>
-              <span class="muted">Moyenne sur parcelles récoltées</span>
-            </div>
+            <h3 class="section-title">Top 3 consommateurs d'intrants (mois en cours)</h3>
+            <p class="small muted" id="topConsumersNote">Classement par parcelle sur le mois civil actuel.</p>
+            <table class="table table-compact top-consumers-table">
+              <thead>
+                <tr>
+                  <th>#</th>
+                  <th>Parcelle</th>
+                  <th>Volume (kg)</th>
+                </tr>
+              </thead>
+              <tbody id="topConsumersBody"></tbody>
+            </table>
+            <p class="small muted top-consumers-fallback" id="topConsumersFallback" hidden>
+              Pas de consommation ce mois-ci — affichage du classement sur toutes les donnees disponibles.
+            </p>
           </article>
         </section>
 
-        <p id="dashboardInsight" class="dashboard-insight" role="status"></p>
-
-        <section class="grid cards-2">
-          <article class="card" style="min-height: 320px;">
-            <div class="card-header">
-              <div>
-                <h3 style="margin:0; font-size:16px;">Évolution du Prix des Céréales</h3>
-                <div class="small muted">Courbe dynamique (Chart.js)</div>
-              </div>
-              <span class="tag muted">FCFA/kg</span>
-            </div>
-            <div class="cereal-price-toolbar">
-              <label class="cereal-price-label" for="cerealPriceSelect">Culture affichée</label>
-              <select id="cerealPriceSelect" class="cereal-price-select" aria-label="Choisir la culture pour la courbe de prix">
-                <option value="Riz">Riz</option>
-                <option value="Maïs">Maïs</option>
-                <option value="Coton">Coton</option>
-              </select>
-            </div>
-            <div style="height: 260px;">
-              <canvas id="priceChart"></canvas>
-            </div>
-          </article>
-
-          <article class="card" style="min-height: 320px;">
-            <div class="card-header">
-              <div>
-                <h3 style="margin:0; font-size:16px;">Distribution des Cultures</h3>
-                <div class="small muted">Riz / Maïs / Coton</div>
-              </div>
-              <span class="tag good" id="dominantCulture">—</span>
-            </div>
-            <div style="height: 260px;">
-              <canvas id="cultureChart"></canvas>
-            </div>
-          </article>
-
+        <section class="card">
+          <h3 class="section-title">Niveau des Stocks par Intrant</h3>
+          <div class="chart-wrap">
+            <canvas id="stocksChart"></canvas>
+          </div>
         </section>
 
-        <div class="footer-note">Astuce: si tu saisis des consommations d'intrants dans “Stocks”, l'alerte rouge apparaît ici automatiquement.</div>
+        <section class="card">
+          <div style="overflow:auto;">
+            <table class="table table-large">
+              <thead>
+                <tr>
+                  <th>Nom</th>
+                  <th>Type</th>
+                  <th>Stock Actuel</th>
+                  <th>Seuil Critique</th>
+                  <th>Cout Unitaire</th>
+                  <th>Statut</th>
+                </tr>
+              </thead>
+              <tbody id="stockTableBody"></tbody>
+            </table>
+          </div>
+        </section>
+
+        <section class="card">
+          <div class="card-header">
+            <div>
+              <h3 class="section-title">Historique des Consommations (Simulation)</h3>
+            </div>
+            <span class="tag muted">Top: <span id="topConsumer">—</span></span>
+          </div>
+          <div id="consumptionList" class="history-list"></div>
+        </section>
+
+        <section class="grid cards-1" id="stocksConsumeSection">
+          <article class="card">
+            <div class="card-header">
+              <div>
+                <h3 class="section-title">Declarer une consommation</h3>
+                <div class="small muted">Deduit automatiquement du stock</div>
+              </div>
+              <span class="tag warn">Logistique</span>
+            </div>
+
+            <form class="form" id="consumeForm">
+              <div class="form-row">
+                <div>
+                  <label class="small muted" for="consumeRegion">Région</label>
+                  <select id="consumeRegion" required>
+                    <option value="">Sélectionner une région</option>
+                    <option value="Kayes">Kayes</option>
+                    <option value="Bamako">Bamako</option>
+                    <option value="Koulikoro">Koulikoro</option>
+                    <option value="Sikasso">Sikasso</option>
+                    <option value="Ségou">Ségou</option>
+                    <option value="Mopti">Mopti</option>
+                  </select>
+                </div>
+                <div>
+                  <label class="small muted" for="consumeParcel">Parcelle</label>
+                  <select id="consumeParcel" required></select>
+                </div>
+                <div>
+                  <label class="small muted" for="consumeDate">Date</label>
+                  <input id="consumeDate" type="date" required />
+                </div>
+              </div>
+              <div class="form-row">
+                <div>
+                  <label class="small muted" for="consumeItem">Intrant</label>
+                  <select id="consumeItem" required>
+                    <option>Urée</option>
+                    <option>NPK</option>
+                    <option>Semence Riz</option>
+                    <option>Semence Maïs</option>
+                    <option>Semence Coton</option>
+                  </select>
+                </div>
+                <div>
+                  <label class="small muted" for="consumeQty">Quantité (kg)</label>
+                  <input id="consumeQty" type="number" min="1" step="1" placeholder="ex: 50" required />
+                </div>
+              </div>
+              <div class="form-actions">
+                <button class="btn" type="submit">Enregistrer</button>
+                <a class="btn secondary" href="{{ asset('index.html') }}  ">Retour Dashboard</a>
+              </div>
+              <div class="footer-note">Si un stock passe sous le seuil critique, une alerte rouge apparait.</div>
+              <div class="form-feedback" id="consumeFeedback" aria-live="polite"></div>
+            </form>
+          </article>
+        </section>
       </main>
       <div data-layout="footer"></div>
     </div>
 
-    {{-- Chargement des scripts --}}
     <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.3/dist/chart.umd.min.js"></script>
-    <script src="{{ asset('js/layout.js') }}"></script>
-    <script src="{{ asset('js/core.js') }}"></script>
-    <script src="{{ asset('js/dashboard.js') }}"></script>
+    <script src="{{ asset('assets/js/layout.js') }}"></script>
+    <script src="{{ asset('assets/js/core.js') }}"></script>
+    <script src="{{ asset('assets/js/stocks.js') }}"></script>
   </body>
 </html>

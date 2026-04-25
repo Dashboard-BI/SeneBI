@@ -20,9 +20,6 @@
           <div class="topbar-right">
             <nav class="nav" data-senebi-nav></nav>
             <div class="topbar-actions">
-              <div class="pill pill--season">
-                <select id="seasonSelect" aria-label="Filtre saison"></select>
-              </div>
               <div class="auth-pills" id="authPills" hidden>
                 <a class="pill user-pill user-pill--link" id="authUserName" href="${base === ".." ? base + "/compte.html" : base + "/pages/compte.html"}">Mon compte</a>
                 <a class="pill auth-link" id="portalBtn" href="#">Retour au Portail</a>
@@ -39,7 +36,7 @@
     return `
       <footer class="site-footer">
         <div class="site-footer-inner">
-          <div class="muted small">© ${new Date().getFullYear()} SeneBI — Data pour l’agriculture</div>
+          <div class="muted small">© 2026 SeneBI - Système Intégré de Gestion Agricole</div>
         </div>
       </footer>
     `;

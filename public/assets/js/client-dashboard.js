@@ -23,7 +23,7 @@
   }
 
   function render() {
-    const auth = SeneBI.requireRole(["admin", "client", "manager"], "Acces refuse.");
+    const auth = SeneBI.requireRole(["manager", "client"], "Acces refuse.");
     if (!auth) return;
     const state = SeneBI.loadState();
     SeneBI.renderTopbar(state);

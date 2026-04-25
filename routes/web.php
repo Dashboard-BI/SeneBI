@@ -1,45 +1,25 @@
 <?php
 
 use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\SenebiController;
 
-// La route pour le login
-Route::get('/', function () {
-    return view('login');
-});
+// Accueil et Portail
+Route::get('/', [SenebiController::class, 'index'])->name('home');
+Route::get('/portail', [SenebiController::class, 'portail'])->name('portal');
 
-// La route pour l'index
-Route::get('/index', function () {
-    return view('index');
-});
+// Authentification
+Route::get('/login', [SenebiController::class, 'login'])->name('login');
+Route::get('/login-client', [SenebiController::class, 'loginClient'])->name('login.client');
 
-// La route pour les parcelles
-Route::get('/parcelles', function () {
-    return view('parcelles');
-});
+// Espace Client et Compte
+Route::get('/client-dashboard', [SenebiController::class, 'clientDashboard'])->name('dashboard.client');
+Route::get('/mon-compte', [SenebiController::class, 'compte'])->name('compte');
 
-// La route pour les stocks
-Route::get('/stocks', function () {
-    return view('stocks');
-});
+// Gestion Technique (Visites, Stocks, Parcelles)
+Route::get('/visites', [SenebiController::class, 'visites'])->name('visites');
+Route::get('/stocks', [SenebiController::class, 'stocks'])->name('stocks');
+Route::get('/parcelles', [SenebiController::class, 'parcelles'])->name('parcelles');
 
-// La route pour les compte
-Route::get('/compte', function () {
-    return view('compte');
-});
-// La route pour les secure-portal
-Route::get('/secure-portal', function () {
-    return view('secure-portal');
-
-}); 
-// La route pour le 403
-Route::get('/403', function () {
-    return view('403');
-}); 
-// La route pour le client-dashboard
-Route::get('/client-dashboard', function () {
-    return view('client-dashboard');
-});
-// La route pour les rentabilites
-Route::get('/rentabilite', function () {
-    return view('rentabilite');
-});
+// Analyse et Erreurs
+Route::get('/rentabilite', [SenebiController::class, 'rentabilite'])->name('rentabilite');
+Route::get('/403', [SenebiController::class, 'error403'])->name('error.403');

@@ -1,6 +1,7 @@
 (function () {
   const USERS_KEY = "senebi_auth_users";
   const PREFS_KEY = "senebi_notification_prefs_v1";
+  const STATE_KEY = "senebi_state_v1";
 
   const defaultPrefs = {
     emailAlerts: true,
@@ -17,20 +18,18 @@
   }
 
   function roleLabel(role) {
-    if (role === "admin") return "Admin";
+    if (role === "admin") return "Manager";
     if (role === "manager") return "Manager";
     return "Client";
   }
 
   function roleClass(role) {
-    if (role === "admin") return "role-pill role-pill--admin";
     if (role === "manager") return "role-pill role-pill--manager";
     return "role-pill role-pill--client";
   }
 
   const defaultUsers = [
-    { id: "U-1", name: "Mimi", company: "SeneBI", email: "mimi.admin@senebi.sn", password: "admin123", role: "admin", blocked: false },
-    { id: "U-2", name: "Adiaratou", company: "Sidi Agri", email: "adiaratou@sidi-agri.sn", password: "manager123", role: "manager", blocked: false },
+    { id: "U-1", name: "Mimi", company: "SeneBI", email: "mimi.manager@senebi.sn", password: "manager123", role: "manager", blocked: false },
     { id: "U-3", name: "Sidi", company: "Sidi Agri", email: "sidi@sidi-agri.sn", password: "client123", role: "client", blocked: false },
   ];
 
@@ -90,13 +89,25 @@
     el.className = "form-feedback" + (kind === "ok" ? " ok" : kind === "err" ? " err" : "");
   }
 
+  function downloadJson(filename, payload) {
+    const blob = new Blob([JSON.stringify(payload, null, 2)], { type: "application/json" });
+    const url = URL.createObjectURL(blob);
+    const a = document.createElement("a");
+    a.href = url;
+    a.download = filename;
+    document.body.appendChild(a);
+    a.click();
+    a.remove();
+    URL.revokeObjectURL(url);
+  }
+
   function initial(name) {
     const c = String(name || "?").trim().charAt(0);
     return c ? c.toUpperCase() : "?";
   }
 
   document.addEventListener("DOMContentLoaded", function () {
-    const auth = SeneBI.requireRole(["admin", "manager", "client"], "Connexion requise.");
+    const auth = SeneBI.requireRole(["manager", "client"], "Connexion requise.");
     if (!auth) return;
 
     const state = SeneBI.loadState();
@@ -105,11 +116,9 @@
     const back = SeneBI.qs("#compteBackLink");
     if (back) {
       const home =
-        auth.role === "admin"
+        auth.role === "manager"
           ? "./secure-portal.html"
-          : auth.role === "manager"
-            ? "./parcelles.html"
-            : "./client-dashboard.html";
+          : "./client-dashboard.html";
       back.href = home;
     }
 
@@ -158,7 +167,7 @@
         if (idx < 0) {
           setFeedback(
             fb,
-            "Compte introuvable dans la liste locale. Utilisez un compte créé depuis le portail admin.",
+            "Compte introuvable dans la liste locale. Utilisez un compte cree depuis le portail manager.",
             "err"
           );
           return;
@@ -189,6 +198,51 @@
         };
         savePrefs(auth.email, next);
         setFeedback(SeneBI.qs("#prefsFeedback"), "Préférences enregistrées sur cet appareil.", "ok");
+      });
+    }
+
+    const exportBtn = SeneBI.qs("#exportDataBtn");
+    const importInput = SeneBI.qs("#importDataFile");
+    const backupFb = SeneBI.qs("#backupFeedback");
+
+    if (exportBtn && !exportBtn.dataset.bound) {
+      exportBtn.dataset.bound = "1";
+      exportBtn.addEventListener("click", () => {
+        const state = SeneBI.loadState();
+        const payload = {
+          app: "SeneBI",
+          version: 1,
+          exportedAt: new Date().toISOString(),
+          state,
+        };
+        const dateStamp = new Date().toISOString().slice(0, 10);
+        downloadJson(`senebi-sauvegarde-${dateStamp}.json`, payload);
+        setFeedback(backupFb, "Sauvegarde exportee avec succes.", "ok");
+      });
+    }
+
+    if (importInput && !importInput.dataset.bound) {
+      importInput.dataset.bound = "1";
+      importInput.addEventListener("change", async (event) => {
+        const file = event.target?.files?.[0];
+        if (!file) return;
+        try {
+          const text = await file.text();
+          const parsed = JSON.parse(text);
+          const incomingState = parsed?.state;
+          if (!incomingState || !incomingState.bySeason || !incomingState.season) {
+            setFeedback(backupFb, "Fichier invalide: sauvegarde SeneBI non reconnue.", "err");
+            importInput.value = "";
+            return;
+          }
+          localStorage.setItem(STATE_KEY, JSON.stringify(incomingState));
+          setFeedback(backupFb, "Sauvegarde importee. Rechargement en cours...", "ok");
+          setTimeout(() => window.location.reload(), 500);
+        } catch {
+          setFeedback(backupFb, "Import impossible: fichier JSON incorrect.", "err");
+        } finally {
+          importInput.value = "";
+        }
       });
     }
 

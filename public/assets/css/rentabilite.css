@@ -138,6 +138,11 @@
   background: #fff;
 }
 
+.calc-field input.input-error {
+  border-color: rgba(220, 38, 38, 0.6);
+  box-shadow: 0 0 0 3px rgba(220, 38, 38, 0.12);
+}
+
 .calc-results {
   display: grid;
   gap: 12px;
@@ -201,6 +206,19 @@
   display: grid;
   gap: 14px;
   grid-template-columns: repeat(4, minmax(0, 1fr));
+}
+
+.season-compare {
+  margin-top: 14px;
+  background: linear-gradient(135deg, rgba(224, 231, 255, 0.5), rgba(240, 253, 250, 0.9));
+}
+
+.season-compare-text {
+  margin: 0;
+  font-size: 14px;
+  font-weight: 700;
+  color: #0f172a;
+  line-height: 1.5;
 }
 
 .kpi-card {

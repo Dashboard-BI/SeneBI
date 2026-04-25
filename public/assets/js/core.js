@@ -96,15 +96,17 @@
 
   function getAuth() {
     try {
-      return JSON.parse(localStorage.getItem(AUTH_KEY) || "null");
+      const parsed = JSON.parse(localStorage.getItem(AUTH_KEY) || "null");
+      if (!parsed) return null;
+      if (parsed.role === "admin") parsed.role = "manager";
+      return parsed;
     } catch {
       return null;
     }
   }
 
   function roleHome(role) {
-    if (role === "admin") return "secure-portal.html";
-    if (role === "manager") return "parcelles.html";
+    if (role === "manager") return "secure-portal.html";
     return "client-dashboard.html";
   }
 
@@ -171,8 +173,21 @@
     }
   }
 
+  function safePdfText(value) {
+    // jsPDF may render narrow/non-breaking spaces as garbled symbols.
+    return String(value ?? "")
+      .replace(/\u202f|\u00a0/g, " ")
+      .replace(/[’]/g, "'");
+  }
+
   function fmtMoneyPdf(value) {
-    return `${Number(value || 0).toLocaleString("fr-FR")} FCFA`;
+    const n = Number(value || 0);
+    return safePdfText(`${n.toLocaleString("fr-FR")} FCFA`);
+  }
+
+  function fmtMillionsPdf(value) {
+    const inMillions = Number(value || 0) / 1000000;
+    return safePdfText(`${inMillions.toLocaleString("fr-FR", { minimumFractionDigits: 2, maximumFractionDigits: 2 })} M FCFA`);
   }
 
   /**
@@ -211,7 +226,7 @@
     doc.setTextColor(...slate);
     doc.setFont("helvetica", "bold");
     doc.setFontSize(20);
-    doc.text(options.title || "SeneBI", m + 20, y + 34);
+    doc.text(safePdfText(options.title || "SeneBI"), m + 20, y + 34);
 
     doc.setFont("helvetica", "normal");
     doc.setFontSize(10);
@@ -219,18 +234,18 @@
     const sub =
       options.subtitle ||
       `Saison ${state.season} · ${new Date().toLocaleDateString("fr-FR", { dateStyle: "long" })}`;
-    doc.text(sub, m + 20, y + 54);
+    doc.text(safePdfText(sub), m + 20, y + 54);
 
     doc.setFontSize(8.5);
     doc.setTextColor(148, 163, 184);
-    doc.text("Document genere par SeneBI — Business Intelligence agricole", m + 20, y + 74);
+    doc.text("Document genere par SeneBI - Business Intelligence agricole", m + 20, y + 74);
 
     y += 104;
 
     const kpis = [
-      { label: "Chiffre d'affaires", value: fmtMoneyPdf(business.salesFcfa), stripe: [16, 185, 129] },
-      { label: "Couts intrants", value: fmtMoneyPdf(business.intrantsCostFcfa), stripe: [239, 68, 68] },
-      { label: "Benefice net", value: fmtMoneyPdf(profit), stripe: [99, 102, 241] },
+      { label: "Chiffre d'affaires", value: fmtMillionsPdf(business.salesFcfa), stripe: [16, 185, 129] },
+      { label: "Couts intrants", value: fmtMillionsPdf(business.intrantsCostFcfa), stripe: [239, 68, 68] },
+      { label: "Benefice net", value: fmtMillionsPdf(profit), stripe: [99, 102, 241] },
       {
         label: "Marge nette",
         value: `${marginPct.toLocaleString("fr-FR", { minimumFractionDigits: 1, maximumFractionDigits: 1 })}%`,
@@ -250,11 +265,11 @@
       doc.setFont("helvetica", "normal");
       doc.setFontSize(8);
       doc.setTextColor(...muted);
-      doc.text(k.label, x + 14, y + 22);
+      doc.text(safePdfText(k.label), x + 14, y + 22);
       doc.setFont("helvetica", "bold");
       doc.setFontSize(10.5);
       doc.setTextColor(30, 41, 59);
-      const lines = doc.splitTextToSize(k.value, boxW - 22);
+      const lines = doc.splitTextToSize(safePdfText(k.value), boxW - 22);
       doc.text(lines, x + 14, y + 42);
       x += boxW + gap;
     });
@@ -275,7 +290,7 @@
       doc.setFont("helvetica", "bold");
       doc.setFontSize(11.5);
       doc.setTextColor(...slate);
-      doc.text(ch.title || `Graphique ${idx + 1}`, m, y);
+      doc.text(safePdfText(ch.title || `Graphique ${idx + 1}`), m, y);
       y += 18;
 
       if (ch.canvas) {
@@ -315,13 +330,20 @@
     if (!nav) return;
 
     const auth = getAuth();
-    const links = [
+    
+    // Navigation différente selon le rôle
+    let links = [
       { href: "../index.html", label: "Dashboard", key: "dashboard", icon: "dashboard" },
       { href: "../pages/parcelles.html", label: "Parcelles", key: "parcels", icon: "parcels" },
       { href: "../pages/stocks.html", label: "Stocks", key: "stocks", icon: "stocks" },
       { href: "../pages/rentabilite.html", label: "Rentabilité", key: "business", icon: "business" },
     ];
-    const navLinks = auth?.role === "manager" ? links.filter((l) => l.key !== "business") : links;
+    
+    // Ajouter "Visites" uniquement pour les managers
+    if (auth && auth.role === "manager") {
+      links.splice(3, 0, { href: "../pages/visits-control.html", label: "Visites", key: "visits", icon: "visits" });
+    }
+    const navLinks = links;
     const isIndex = location.pathname.replace(/\\/g, "/").toLowerCase().endsWith("/index.html") || location.pathname.endsWith("/") || location.pathname.toLowerCase().endsWith("\\index.html");
     const adjusted = navLinks.map((l) => (isIndex ? { ...l, href: l.href.replace("../", "") } : l));
 
@@ -330,6 +352,7 @@
       if (name === "dashboard") return `<svg viewBox="0 0 24 24" ${common}><path d="M3 13h8V3H3v10z"/><path d="M13 21h8V11h-8v10z"/><path d="M13 3h8v6h-8V3z"/><path d="M3 17h8v4H3v-4z"/></svg>`;
       if (name === "parcels") return `<svg viewBox="0 0 24 24" ${common}><path d="M3 6l9-3 9 3v12l-9 3-9-3V6z"/><path d="M12 3v18"/><path d="M3 6l9 3 9-3"/></svg>`;
       if (name === "stocks") return `<svg viewBox="0 0 24 24" ${common}><path d="M21 16V8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l7-4a2 2 0 0 0 1-1.73z"/><path d="M3.3 7l8.7 5 8.7-5"/><path d="M12 22V12"/></svg>`;
+      if (name === "visits") return `<svg viewBox="0 0 24 24" ${common}><path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M22 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></svg>`;
       return `<svg viewBox="0 0 24 24" ${common}><path d="M12 1v22"/><path d="M17 5H9.5a3.5 3.5 0 0 0 0 7H14a3.5 3.5 0 0 1 0 7H6"/></svg>`;
     };
 
@@ -340,19 +363,8 @@
       })
       .join("");
 
-    const seasonSelect = qs("#seasonSelect");
-    if (seasonSelect && !seasonSelect.dataset.bound) {
-      seasonSelect.dataset.bound = "1";
-      seasonSelect.innerHTML = state.seasons.map((s) => `<option value="${s}">Saison ${s}</option>`).join("");
-      seasonSelect.value = state.season;
-      seasonSelect.addEventListener("change", () => {
-        state.season = seasonSelect.value;
-        saveState(state);
-        window.dispatchEvent(new CustomEvent("senebi:seasonChanged"));
-      });
-    } else if (seasonSelect) {
-      seasonSelect.value = state.season;
-    }
+    // Le filtre par saison a été supprimé du header
+    // Les données de saison restent disponibles pour les rapports PDF
     bindTopbarAuth(getAuth());
   }
 

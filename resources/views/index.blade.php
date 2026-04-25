@@ -4,8 +4,9 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <title>SeneBI — Dashboard</title>
-    <link rel="stylesheet" href="{{ asset('css/base.css') }}" />
-    <link rel="stylesheet" href="{{ asset('css/dashboard.css') }}" />
+    <link rel="stylesheet" href="{{ asset('assets/css/base.css') }}" />
+    <link rel="stylesheet" href="{{ asset('assets/css/dashboard.css') }}" />
+    <link rel="stylesheet" href="{{ asset('assets/css/region-filter.css') }}" />
   </head>
   <body data-page="dashboard">
     <div class="app">
@@ -17,11 +18,26 @@
             <h1>Tableau de Bord Analytique</h1>
             <p>Vue d'ensemble des performances agricoles, avec analyse des tendances et alertes opérationnelles.</p>
           </div>
+          <div class="region-selector">
+            <label for="regionSelect" class="region-label">Région</label>
+            <select id="regionSelect" class="region-dropdown">
+              <option value="all">Toutes les régions</option>
+              <option value="bko">Bamako</option>
+              <option value="kay">Kayes</option>
+              <option value="kou">Koulikoro</option>
+              <option value="seg">Ségou</option>
+              <option value="sik">Sikasso</option>
+              <option value="mop">Mopti</option>
+              <option value="tom">Tombouctou</option>
+              <option value="gao">Gao</option>
+              <option value="kid">Kidal</option>
+            </select>
+          </div>
         </div>
 
         <div id="stockAlert" class="alert-banner">
           <div id="stockAlertText">Alerte Stock</div>
-          <a class="btn danger" href="/stocks">Voir le stock</a>
+          <a class="btn danger" href="{{ route('stocks') }}">Voir le stock</a>
         </div>
 
         <section class="grid kpis">
@@ -73,6 +89,7 @@
             </div>
           </article>
 
+          
           <article class="card">
             <div class="card-header">
               <p class="card-title">Rendement Moyen</p>
@@ -89,6 +106,17 @@
             </div>
           </article>
         </section>
+
+        <div class="weather-widget">
+            <div class="weather-content">
+                <div class="weather-icon">☀️</div>
+                <div class="weather-info">
+                    <div class="weather-location">Bamako</div>
+                    <div class="weather-temp">35°C</div>
+                    <div class="weather-condition">Temps sec</div>
+                </div>
+            </div>
+        </div>
 
         <p id="dashboardInsight" class="dashboard-insight" role="status"></p>
 
@@ -129,15 +157,17 @@
 
         </section>
 
-        <div class="footer-note">Astuce: si tu saisis des consommations d'intrants dans “Stocks”, l'alerte rouge apparaît ici automatiquement.</div>
+        <div class="footer-note">Astuce: si tu saisis des consommations d'intrants dans "Stocks", l'alerte rouge apparaît ici automatiquement.</div>
       </main>
       <div data-layout="footer"></div>
     </div>
 
     <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.3/dist/chart.umd.min.js"></script>
-    <script src="{{ asset('js/layout.js') }}"></script>
-    <script src="{{ asset('js/core.js') }}"></script>
-    <script src="{{ asset('js/dashboard.js') }}"></script>
+    <script src="{{ asset('assets/js/layout.js') }}"></script>
+    <script src="{{ asset('assets/js/core.js') }}"></script>
+    <script src="{{ asset('assets/js/dashboard.js') }}"></script>
+    <script src="{{ asset('assets/js/region-filter.js') }}"></script>
+        <script src="{{ asset('assets/js/notifications-simple.js') }}"></script>
   </body>
 </html>
 

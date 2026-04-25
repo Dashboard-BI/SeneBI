@@ -4,8 +4,8 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <title>SeneBI — Mon compte</title>
-    <link rel="stylesheet" href="{{ asset('css/base.css') }}" />
-    <link rel="stylesheet" href="{{ asset('css/compte.css') }}" />
+    <link rel="stylesheet" href="{{ asset('assets/css/base.css') }}" />
+    <link rel="stylesheet" href="{{ asset('assets/css/compte.css') }}" />
   </head>
   <body data-page="compte">
     <div class="app">
@@ -17,7 +17,7 @@
             <h1>Mon compte</h1>
             <p>Profil, sécurité et préférences de notification.</p>
           </div>
-          <a class="compte-back-btn" href="#" id="compteBackLink">Retour</a>
+          <a class="compte-back-btn" href="{{ route('dashboard') }}" id="compteBackLink">Retour</a>
         </header>
 
         <div class="compte-grid">
@@ -103,13 +103,26 @@
               <p class="form-feedback" id="prefsFeedback" aria-live="polite"></p>
             </form>
           </section>
+
+          <section class="card compte-card compte-card--wide">
+            <h2>Sauvegarde des données</h2>
+            <p class="compte-card-sub">Exportez vos données en fichier JSON, puis restaurez-les si besoin.</p>
+            <div class="backup-actions">
+              <button class="compte-submit-btn compte-submit-btn--secondary" type="button" id="exportDataBtn">Exporter mes donnees</button>
+              <label class="compte-backup-import">
+                <input type="file" id="importDataFile" accept=".json,application/json" />
+                <span>Importer un fichier de sauvegarde</span>
+              </label>
+            </div>
+            <p class="form-feedback" id="backupFeedback" aria-live="polite"></p>
+          </section>
         </div>
       </main>
       <div data-layout="footer"></div>
     </div>
 
-    <script src="{{ asset('js/layout.js') }}"></script>
-    <script src="{{ asset('js/core.js') }}"></script>
-    <script src="{{ asset('js/compte.js') }}"></script>
+    <script src="{{ asset('assets/js/layout.js') }}"></script>
+    <script src="{{ asset('assets/js/core.js') }}"></script>
+    <script src="{{ asset('assets/js/compte.js') }}"></script>
   </body>
 </html>

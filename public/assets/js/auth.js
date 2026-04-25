@@ -3,10 +3,13 @@
   const USERS_KEY = "senebi_auth_users";
 
   const defaultUsers = [
-    { id: "U-1", name: "Mimi", company: "SeneBI", email: "mimi.admin@senebi.sn", password: "admin123", role: "admin", blocked: false },
-    { id: "U-2", name: "Adiaratou", company: "Sidi Agri", email: "adiaratou@sidi-agri.sn", password: "manager123", role: "manager", blocked: false },
+    { id: "U-1", name: "Mimi", company: "SeneBI", email: "mimi.manager@senebi.sn", password: "manager123", role: "manager", blocked: false },
     { id: "U-3", name: "Sidi", company: "Sidi Agri", email: "sidi@sidi-agri.sn", password: "client123", role: "client", blocked: false },
   ];
+
+  function normalizeRole(role) {
+    return role === "admin" ? "manager" : role;
+  }
 
   function loadUsers() {
     try {
@@ -24,7 +27,7 @@
           company: u.company || "SeneBI",
           email: u.email || (u.username ? `${u.username}@senebi.local` : ""),
           password: u.password || "",
-          role: u.role || "client",
+          role: normalizeRole(u.role || "client"),
           blocked: Boolean(u.blocked),
         }))
         .filter((u) => u.email && u.password);
@@ -45,20 +48,21 @@
   }
 
   function roleLabel(role) {
-    if (role === "admin") return "Admin";
     if (role === "manager") return "Manager";
     return "Client";
   }
 
   function roleHome(role) {
-    if (role === "admin") return "./pages/secure-portal.html";
-    if (role === "manager") return "./pages/parcelles.html";
+    if (normalizeRole(role) === "manager") return "./pages/secure-portal.html";
     return "./pages/client-dashboard.html";
   }
 
   function getAuth() {
     try {
-      return JSON.parse(localStorage.getItem(AUTH_KEY) || "null");
+      const parsed = JSON.parse(localStorage.getItem(AUTH_KEY) || "null");
+      if (!parsed) return null;
+      parsed.role = normalizeRole(parsed.role || "client");
+      return parsed;
     } catch {
       return null;
     }
@@ -86,7 +90,7 @@
     if (!auth) return null;
     if (!allowedRoles.includes(auth.role)) {
       alert(deniedMessage || "Acces refuse pour votre role.");
-      window.location.href = auth.role === "manager" ? "./parcelles.html" : "./client-dashboard.html";
+      window.location.href = roleHome(auth.role);
       return null;
     }
     return auth;
@@ -190,16 +194,16 @@
         return;
       }
       if (match.blocked) {
-        setFeedback(feedback, "Compte bloque. Contactez l'administrateur.", true);
+        setFeedback(feedback, "Compte bloque. Contactez le manager.", true);
         return;
       }
-      setAuth({ id: match.id, name: match.name, email: match.email, company: match.company, role: match.role });
+      setAuth({ id: match.id, name: match.name, email: match.email, company: match.company, role: normalizeRole(match.role) });
       window.location.href = roleHome(match.role);
     });
   }
 
   function initPortalPage() {
-    const auth = requireRole(["admin"], "Acces refuse. Seul l'administrateur peut acceder au panel.");
+    const auth = requireRole(["manager"], "Acces refuse. Seul le manager peut acceder au panel.");
     if (!auth) return;
     const state = window.SeneBI?.loadState ? window.SeneBI.loadState() : null;
     if (state && window.SeneBI?.renderTopbar) window.SeneBI.renderTopbar(state);
@@ -210,10 +214,10 @@
     if (welcome) welcome.textContent = `Bonjour ${auth.name}. Vous etes connecte en tant que ${roleLabel(auth.role)}.`;
     if (badge) {
       badge.textContent = roleLabel(auth.role);
-      badge.className = `tag ${auth.role === "admin" ? "good" : auth.role === "manager" ? "muted" : "warn"}`;
+      badge.className = `tag ${auth.role === "manager" ? "good" : "warn"}`;
     }
 
-    if (auth.role === "admin") {
+    if (auth.role === "manager") {
       if (adminPanel) adminPanel.hidden = false;
       const users = loadUsers();
       renderUsersList(users);
@@ -254,8 +258,8 @@
           const idx = current.findIndex((u) => u.id === id);
           if (idx < 0) return;
           const selected = current[idx];
-          if (selected.role === "admin" && action !== "reset-pass") {
-            setFeedback(feedback, "Le compte administrateur principal ne peut pas etre modifie ici.", true);
+          if (selected.role === "manager" && action !== "reset-pass") {
+            setFeedback(feedback, "Le compte manager principal ne peut pas etre modifie ici.", true);
             return;
           }
           if (action === "toggle-block") {

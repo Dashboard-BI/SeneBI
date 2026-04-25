@@ -11,12 +11,11 @@
 
     const message =
       getParam("message") ||
-      "Oups ! Cette zone est reservee aux proprietaires. Si vous avez besoin de ces chiffres, contactez votre administrateur.";
+      "Oups ! Cette zone est reservee aux proprietaires. Si vous avez besoin de ces chiffres, contactez votre manager.";
     if (messageEl) messageEl.textContent = message;
 
     if (backBtn) {
-      if (auth?.role === "admin") backBtn.href = "./secure-portal.html";
-      else if (auth?.role === "manager") backBtn.href = "./parcelles.html";
+      if (auth?.role === "manager") backBtn.href = "./secure-portal.html";
       else backBtn.href = "./client-dashboard.html";
     }
   });

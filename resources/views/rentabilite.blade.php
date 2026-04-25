@@ -4,8 +4,9 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <title>SeneBI - Rentabilite</title>
-    <link rel="stylesheet" href="{{ asset('css/base.css') }}" />
-    <link rel="stylesheet" href="{{ asset('css/rentabilite.css') }}" />
+    <link rel="stylesheet" href="{{ asset('assets/css/base.css') }}" />
+    <link rel="stylesheet" href="{{ asset('assets/css/rentabilite.css') }}" />
+    <link rel="stylesheet" href="{{ asset('assets/css/region-filter.css') }}" />
   </head>
   <body data-page="business">
     <div class="app">
@@ -18,6 +19,21 @@
             <p>Analyse financiere et generation de rapports</p>
           </div>
           <div class="head-actions">
+            <div class="region-selector">
+              <label for="regionSelectRent" class="region-label">Région</label>
+              <select id="regionSelectRent" class="region-dropdown">
+                <option value="all">Toutes les régions</option>
+                <option value="bko">Bamako</option>
+                <option value="kay">Kayes</option>
+                <option value="kou">Koulikoro</option>
+                <option value="seg">Ségou</option>
+                <option value="sik">Sikasso</option>
+                <option value="mop">Mopti</option>
+                <option value="tom">Tombouctou</option>
+                <option value="gao">Gao</option>
+                <option value="kid">Kidal</option>
+              </select>
+            </div>
             <button class="btn secondary" type="button" id="openCalculatorBtn">Calculateur</button>
             <button class="btn" type="button" id="exportPdfBtn">Exporter le bilan PDF</button>
           </div>
@@ -111,6 +127,7 @@
           </article>
         </section>
 
+        
         <section class="charts-grid">
           <article class="card">
             <h2>Comparaison Revenus vs Couts</h2>
@@ -173,8 +190,10 @@
 
     <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.3/dist/chart.umd.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/jspdf@2.5.2/dist/jspdf.umd.min.js"></script>
-    <script src="{{ asset('js/layout.js') }}"></script>
-    <script src="{{ asset('js/core.js') }}"></script>
-    <script src="{{ asset('js/rentabilite.js') }}"></script>
+    <script src="{{ asset('assets/js/layout.js') }}"></script>
+    <script src="{{ asset('assets/js/core.js') }}"></script>
+    <script src="{{ asset('assets/js/rentabilite.js') }}"></script>
+    <script src="{{ asset('assets/js/region-filter.js') }}"></script>
+    <script src="{{ asset('assets/js/region-rentabilite.js') }}"></script>
   </body>
 </html>

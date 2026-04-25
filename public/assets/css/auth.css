@@ -31,8 +31,10 @@
 .login-photo {
   border-radius: 12px;
   min-height: 100%;
-  background: url("file:///C:/Users/LENOVO/.cursor/projects/c-Users-LENOVO-Desktop-two/assets/c__Users_LENOVO_AppData_Roaming_Cursor_User_workspaceStorage_437c9e11065bafda052dbe12c51d2f7a_images_image-df2ab2d4-a725-470e-9f7f-ec68314388ca.png")
-    center / cover no-repeat;
+  background-image: url("../img/login.jpeg");
+  background-size: cover;
+  background-repeat: no-repeat;
+  background-position: 44% center;
   border: 1px solid rgba(15, 23, 42, 0.12);
   overflow: hidden;
 }
@@ -47,6 +49,8 @@
   box-shadow: 0 4px 20px rgba(15, 23, 42, 0.06), inset 0 1px 0 rgba(255, 255, 255, 0.9);
   padding: 20px 22px 20px;
   min-width: 0;
+  opacity: 0;
+  animation: fadeIn 0.8s ease-out 0.3s forwards;
   display: flex;
   flex-direction: column;
   justify-content: flex-start;
@@ -104,6 +108,44 @@
   margin-top: 8px;
   font-size: 14px;
   color: rgba(15, 23, 42, 0.82);
+  cursor: pointer;
+  text-decoration: underline;
+  transition: color var(--anim-fast);
+}
+
+.login-help:hover {
+  color: var(--accent);
+}
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* Styles pour le switch entre login manager/client */
+.auth-switch {
+  text-align: center;
+  margin-top: 20px;
+  padding-top: 16px;
+  border-top: 1px solid rgba(15, 23, 42, 0.1);
+}
+
+.auth-switch p {
+  margin: 0 0 8px 0;
+  font-size: 13px;
+  color: rgba(15, 23, 42, 0.7);
+}
+
+.auth-switch .btn.secondary {
+  font-size: 12px;
+  padding: 6px 12px;
+  min-width: auto;
 }
 
 /* Formulaire + démos recentrés (page login uniquement) */

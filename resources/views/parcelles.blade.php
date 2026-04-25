@@ -4,8 +4,9 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <title>SeneBI — Parcelles</title>
-    <link rel="stylesheet" href="{{ asset('css/base.css') }}" />
-    <link rel="stylesheet" href="{{ asset('css/parcelles.css') }}" />
+    <link rel="stylesheet" href="{{ asset('assets/css/base.css') }}" />
+    <link rel="stylesheet" href="{{ asset('assets/css/parcelles.css') }}" />
+    <link rel="stylesheet" href="{{ asset('assets/css/region-filter.css') }}" />
   </head>
   <body data-page="parcels">
     <div class="app">
@@ -17,10 +18,27 @@
             <h1 class="hero-title">Gestion des Parcelles & Récoltes</h1>
             <p class="hero-subtitle">Suivi de la production et des rendements</p>
           </div>
-          <button class="action-btn" id="openHarvestBtn" type="button">
-            <span class="action-plus">+</span>
-            <span>Saisir une récolte</span>
-          </button>
+          <div class="hero-actions">
+            <div class="region-selector">
+              <label for="regionSelectParcel" class="region-label">Région</label>
+              <select id="regionSelectParcel" class="region-dropdown">
+                <option value="all">Toutes les régions</option>
+                <option value="bko">Bamako</option>
+                <option value="kay">Kayes</option>
+                <option value="kou">Koulikoro</option>
+                <option value="seg">Ségou</option>
+                <option value="sik">Sikasso</option>
+                <option value="mop">Mopti</option>
+                <option value="tom">Tombouctou</option>
+                <option value="gao">Gao</option>
+                <option value="kid">Kidal</option>
+              </select>
+            </div>
+            <button class="action-btn" id="openHarvestBtn" type="button">
+              <span class="action-plus">+</span>
+              <span>Saisir une récolte</span>
+            </button>
+          </div>
         </div>
 
         <section class="card harvest-panel" id="harvestPanel" aria-hidden="true">
@@ -67,9 +85,11 @@
     </div>
 
     <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.3/dist/chart.umd.min.js"></script>
-    <script src="{{ asset('js/layout.js') }}"></script>
-    <script src="{{ asset('js/core.js') }}"></script>
-    <script src="{{ asset('js/parcelles.js') }}"></script>
+    <script src="{{ asset('assets/js/layout.js') }}"></script>
+    <script src="{{ asset('assets/js/core.js') }}"></script>
+    <script src="{{ asset('assets/js/parcelles.js') }}"></script>
+    <script src="{{ asset('assets/js/region-filter.js') }}"></script>
+    <script src="{{ asset('assets/js/region-parcelles.js') }}"></script>
   </body>
 </html>
 

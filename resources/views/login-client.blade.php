@@ -3,7 +3,7 @@
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
-    <title>SeneBI - Connexion securisee</title>
+    <title>SeneBI - Connexion Client</title>
     <link rel="stylesheet" href="{{ asset('assets/css/base.css') }}" />
     <link rel="stylesheet" href="{{ asset('assets/css/auth.css') }}" />
     <link rel="stylesheet" href="{{ asset('assets/css/modal-password.css') }}" />
@@ -21,15 +21,15 @@
             />
           </div>
 
-          <h1>SeneBI: Business Intelligence Agricole Mali</h1>
-          <p class="login-subtitle">Votre plateforme de gestion securisee</p>
+          <h1>SeneBI: Espace Client</h1>
+          <p class="login-subtitle">Votre plateforme de suivi agricole</p>
 
           <form id="loginForm" class="auth-form">
             <label for="email">Email</label>
-            <input id="email" type="email" value="mimi.manager@senebi.sn" placeholder="Ex: adiaratou@sidi-agri.com" required />
+            <input id="email" type="email" value="sidi@sidi-agri.sn" placeholder="Ex: votre-email@entreprise.com" required />
 
             <label for="password">Mot de passe</label>
-            <input id="password" type="password" value="manager123" placeholder="Votre mot de passe" required />
+            <input id="password" type="password" value="client123" placeholder="Votre mot de passe" required />
 
             <button class="btn login-submit" type="submit">Se connecter</button>
             <div class="login-help" id="forgotPasswordLink">Mot de passe oublie?</div>
@@ -37,8 +37,8 @@
           </form>
 
           <div class="auth-switch">
-            <p>Vous êtes un client ?</p>
-            <a href="login-client.html" class="btn secondary">Accès Client</a>
+            <p>Vous êtes un manager ?</p>
+            <a href="login.html" class="btn secondary">Accès Manager</a>
           </div>
         </div>
       </section>

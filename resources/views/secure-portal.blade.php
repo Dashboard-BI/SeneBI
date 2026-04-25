@@ -4,8 +4,8 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <title>SeneBI - Portail securise</title>
-    <link rel="stylesheet" href="{{ asset('css/base.css') }}" />
-    <link rel="stylesheet" href="{{ asset('css/auth.css') }}" />
+    <link rel="stylesheet" href="{{ asset('assets/css/base.css') }}" />
+    <link rel="stylesheet" href="{{ asset('assets/css/auth.css') }}" />
   </head>
   <body data-page="auth-portal">
     <div class="app">
@@ -13,9 +13,9 @@
       <main class="portal-shell container">
         <section class="portal-head card">
           <div class="portal-brand-wrap">
-            <img class="portal-logo" src=".img/logo.png" alt="Logo SeneBI" />
+            <img class="portal-logo" src="{{ asset('assets/img/logo.png') }}" alt="Logo SeneBI" />
             <div>
-              <h1>Panel d'Administration SeneBI</h1>
+              <h1>Portail Manager SeneBI</h1>
               <p id="welcomeText">Bienvenue.</p>
             </div>
           </div>
@@ -26,8 +26,8 @@
 
         <section class="card section-shell" id="adminPanel" hidden>
           <div class="section-head">
-            <h2>Administration des comptes</h2>
-            <p>Ajoutez des clients, attribuez des managers et bloquez des comptes si necessaire.</p>
+            <h2>Gestion des comptes</h2>
+            <p>Ajoutez des clients, attribuez des droits manager et bloquez des comptes si necessaire.</p>
           </div>
           <div class="admin-stats" id="adminStats"></div>
           <div class="admin-grid">
@@ -48,15 +48,7 @@
                       <label for="newEmail">Email</label>
                       <input id="newEmail" type="email" required autocomplete="email" />
                     </div>
-                    <div class="form-field">
-                      <label for="newRole">Rôle</label>
-                      <select id="newRole">
-                        <option value="client">Client</option>
-                        <option value="manager">Manager</option>
-                        <option value="admin">Admin</option>
-                      </select>
-                    </div>
-                  </div>
+                                      </div>
                   <div class="admin-form-footer">
                     <button class="btn" type="submit">Ajouter l'utilisateur</button>
                     <div id="adminFeedback" class="form-feedback" aria-live="polite"></div>
@@ -83,8 +75,8 @@
       </main>
       <div data-layout="footer"></div>
     </div>
-    <script src="{{ asset('js/layout.js') }}"></script>
-    <script src="{{ asset('js/core.js') }}"></script>
-    <script src="{{ asset('js/auth.js') }}"></script>
+    <script src="{{ asset('assets/js/layout.js') }}"></script>
+    <script src="{{ asset('assets/js/core.js') }}"></script>
+    <script src="{{ asset('assets/js/auth.js') }}"></script>
   </body>
 </html>

@@ -4,8 +4,8 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <title>SeneBI - Espace client lecture seule</title>
-    <link rel="stylesheet" href="{{ asset('css/base.css') }}" />
-    <link rel="stylesheet" href="{{ asset('css/client-dashboard.css') }}" />
+    <link rel="stylesheet" href="{{ asset('assets/css/base.css') }}" />
+    <link rel="stylesheet" href="{{ asset('assets/css/client-dashboard.css') }}" />
   </head>
   <body data-page="client-readonly">
     <div class="app">
@@ -18,7 +18,7 @@
           </div>
           <div class="head-actions">
             <button class="btn" id="clientExportBtn" type="button">Exporter le Rapport PDF</button>
-            <a class="btn secondary" href="./secure-portal.html">Retour portail</a>
+            <a class="btn secondary" href="{{ route('portal') }} ">Retour portail</a>
           </div>
         </section>
 
@@ -45,8 +45,8 @@
 
     <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.3/dist/chart.umd.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/jspdf@2.5.2/dist/jspdf.umd.min.js"></script>
-    <script src="{{ asset('js/layout.js') }}"></script>
-    <script src="{{ asset('js/core.js') }}"></script>
-    <script src="{{ asset('js/client-dashboard.js') }}"></script>
+    <script src="{{ asset('assets/js/layout.js') }}"></script>
+    <script src="{{ asset('assets/js/core.js') }}"></script>
+    <script src="{{ asset('assets/js/client-dashboard.js') }}"></script>
   </body>
 </html>
