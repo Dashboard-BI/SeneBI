@@ -38,7 +38,7 @@
 
           <div class="auth-switch">
             <p>Vous êtes un client ?</p>
-            <a href="login-client.html" class="btn secondary">Accès Client</a>
+            <a href="/login-client" class="btn secondary">Accès Client</a>
           </div>
         </div>
       </section>

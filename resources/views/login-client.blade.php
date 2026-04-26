@@ -38,7 +38,7 @@
 
           <div class="auth-switch">
             <p>Vous êtes un manager ?</p>
-            <a href="login.html" class="btn secondary">Accès Manager</a>
+            <a href="/login" class="btn secondary">Accès Manager</a>
           </div>
         </div>
       </section>
