@@ -38,7 +38,11 @@
 
           <div class="auth-switch">
             <p>Vous êtes un manager ?</p>
+<<<<<<< HEAD
             <a href="{{ route('login') }}" class="btn secondary">Accès Manager</a>
+=======
+            <a href="/login" class="btn secondary">Accès Manager</a>
+>>>>>>> 1caea71cac76656e5f0e3aa784cb0ed94789e04c
           </div>
         </div>
       </section>

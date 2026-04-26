@@ -38,7 +38,11 @@
 
           <div class="auth-switch">
             <p>Vous êtes un client ?</p>
+<<<<<<< HEAD
             <a href="{{ route('login-client') }}" class="btn secondary">Accès Client</a>
+=======
+            <a href="/login-client" class="btn secondary">Accès Client</a>
+>>>>>>> 1caea71cac76656e5f0e3aa784cb0ed94789e04c
           </div>
         </div>
       </section>

@@ -53,8 +53,8 @@
   }
 
   function roleHome(role) {
-    if (normalizeRole(role) === "manager") return "./pages/secure-portal";
-    return "./pages/client-dashboard";
+    if (normalizeRole(role) === "manager") return "./secure-portal";
+    return "./client-dashboard";
   }
 
   function getAuth() {
