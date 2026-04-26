@@ -15,8 +15,8 @@
     if (messageEl) messageEl.textContent = message;
 
     if (backBtn) {
-      if (auth?.role === "manager") backBtn.href = "./secure-portal.html";
-      else backBtn.href = "./client-dashboard.html";
+      if (auth?.role === "manager") backBtn.href = "./secure-portal";
+      else backBtn.href = "./client-dashboard";
     }
   });
 })();
