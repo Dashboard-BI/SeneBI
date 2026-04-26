@@ -53,8 +53,8 @@
   }
 
   function roleHome(role) {
-    if (normalizeRole(role) === "manager") return "./pages/secure-portal.html";
-    return "./pages/client-dashboard.html";
+    if (normalizeRole(role) === "manager") return "./pages/secure-portal";
+    return "./pages/client-dashboard";
   }
 
   function getAuth() {
@@ -79,7 +79,7 @@
   function requireAuth() {
     const auth = getAuth();
     if (!auth) {
-      window.location.href = "../login.html";
+      window.location.href = "../login";
       return null;
     }
     return auth;
