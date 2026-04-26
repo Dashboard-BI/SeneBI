@@ -9,7 +9,7 @@
     return `
       <header class="topbar">
         <div class="topbar-inner">
-          <a class="brand" href="${base}/index.html">
+          <a class="brand" href="${base}/index.">
             <img class="logo-img" src="${base}/assets/img/logo.png" alt="Logo SeneBI" />
             <div class="brand-title">
               <strong>SeneBI</strong>
@@ -21,7 +21,7 @@
             <nav class="nav" data-senebi-nav></nav>
             <div class="topbar-actions">
               <div class="auth-pills" id="authPills" hidden>
-                <a class="pill user-pill user-pill--link" id="authUserName" href="${base === ".." ? base + "/compte.html" : base + "/pages/compte.html"}">Mon compte</a>
+                <a class="pill user-pill user-pill--link" id="authUserName" href="${base === ".." ? base + "/compte" : base + "/pages/compte"}">Mon compte</a>
                 <a class="pill auth-link" id="portalBtn" href="#">Retour au Portail</a>
                 <button class="pill auth-logout" id="globalLogoutBtn" type="button">Deconnexion</button>
               </div>

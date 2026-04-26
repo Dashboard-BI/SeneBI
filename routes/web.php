@@ -1,25 +1,26 @@
 <?php
 
 use Illuminate\Support\Facades\Route;
-use App\Http\Controllers\SenebiController;
+use App\Http\Controllers\AuthController;
+use App\Http\Controllers\DashboardController;
+use App\Http\Controllers\ClientController;
+use App\Http\Controllers\ManagementController;
 
-// Accueil et Portail
-Route::get('/', [SenebiController::class, 'index'])->name('home');
-Route::get('/portail', [SenebiController::class, 'portail'])->name('portal');
+// Routes publiques (accessibles sans connexion)
+Route::get('/', [DashboardController::class, 'index'])->name('index');
+Route::get('/login', [AuthController::class, 'login'])->name('login');
+Route::get('/login-client', [AuthController::class, 'loginClient'])->name('login-client');
 
-// Authentification
-Route::get('/login', [SenebiController::class, 'login'])->name('login');
-Route::get('/login-client', [SenebiController::class, 'loginClient'])->name('login.client');
+// Routes protégées (nécessitent une connexion)
+Route::middleware(['auth'])->group(function () {
+    Route::get('/portail', [ClientController::class, 'portail'])->name('portal');
+    Route::get('/client-dashboard', [ClientController::class, 'clientDashboard'])->name('dashboard-client');
+    Route::get('/mon-compte', [ClientController::class, 'compte'])->name('compte');
+    Route::get('/visites', [ManagementController::class, 'visites'])->name('visites');
+    Route::get('/stocks', [ManagementController::class, 'stocks'])->name('stocks');
+    Route::get('/parcelles', [ManagementController::class, 'parcelles'])->name('parcelles');
+    Route::get('/rentabilite', [DashboardController::class, 'rentabilite'])->name('rentabilite');
+});
 
-// Espace Client et Compte
-Route::get('/client-dashboard', [SenebiController::class, 'clientDashboard'])->name('dashboard.client');
-Route::get('/mon-compte', [SenebiController::class, 'compte'])->name('compte');
-
-// Gestion Technique (Visites, Stocks, Parcelles)
-Route::get('/visites', [SenebiController::class, 'visites'])->name('visites');
-Route::get('/stocks', [SenebiController::class, 'stocks'])->name('stocks');
-Route::get('/parcelles', [SenebiController::class, 'parcelles'])->name('parcelles');
-
-// Analyse et Erreurs
-Route::get('/rentabilite', [SenebiController::class, 'rentabilite'])->name('rentabilite');
-Route::get('/403', [SenebiController::class, 'error403'])->name('error.403');
+// Erreurs
+Route::get('/403', [AuthController::class, 'error403'])->name('error.403');

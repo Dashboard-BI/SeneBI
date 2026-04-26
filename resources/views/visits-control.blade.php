@@ -13,8 +13,8 @@
       <header class="visits-header">
         <div class="header-container">
           <div class="header-actions">
-            <a href="{{ asset('index.html') }}" class="btn btn-secondary">Retour au Portail</a>
-            <a href="{{ asset('login.html') }}" class="btn btn-danger">Déconnexion</a>
+            <a href="{{ route('home') }}" class="btn btn-secondary">Retour au Portail</a>
+            <a href="{{ route('login') }}" class="btn btn-danger">Déconnexion</a>
           </div>
         </div>
       </header>

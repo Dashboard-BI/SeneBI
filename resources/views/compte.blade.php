@@ -17,7 +17,7 @@
             <h1>Mon compte</h1>
             <p>Profil, sécurité et préférences de notification.</p>
           </div>
-          <a class="compte-back-btn" href="{{ route('dashboard') }}" id="compteBackLink">Retour</a>
+          <a class="compte-back-btn" href="{{ route('home') }}" id="compteBackLink">Retour</a>
         </header>
 
         <div class="compte-grid">

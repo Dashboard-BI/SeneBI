@@ -106,8 +106,8 @@
   }
 
   function roleHome(role) {
-    if (role === "manager") return "secure-portal.html";
-    return "client-dashboard.html";
+    if (role === "manager") return "secure-portal";
+    return "client-dashboard";
   }
 
   function fromPagesDir() {
@@ -115,7 +115,7 @@
   }
 
   function goToLogin() {
-    window.location.href = fromPagesDir() ? "../login.html" : "./login.html";
+    window.location.href = fromPagesDir() ? "../login" : "./login";
   }
 
   function goToRoleHome(role) {
@@ -125,7 +125,7 @@
 
   function goToForbidden(message) {
     const encoded = encodeURIComponent(message || "Acces refuse.");
-    const path = fromPagesDir() ? `./403.html?message=${encoded}` : `./pages/403.html?message=${encoded}`;
+    const path = fromPagesDir() ? `./403?message=${encoded}` : `./pages/403?message=${encoded}`;
     window.location.href = path;
   }
 
@@ -156,7 +156,7 @@
     if (nameEl) {
       nameEl.textContent = auth.name || auth.email || "Utilisateur";
       if (nameEl.tagName === "A") {
-        const acc = fromPagesDir() ? "./compte.html" : "./pages/compte.html";
+        const acc = fromPagesDir() ? "./compte" : "./pages/compte";
         nameEl.setAttribute("href", acc);
         nameEl.setAttribute("title", "Profil et paramètres du compte");
       }
@@ -333,18 +333,18 @@
     
     // Navigation différente selon le rôle
     let links = [
-      { href: "../index.html", label: "Dashboard", key: "dashboard", icon: "dashboard" },
-      { href: "../pages/parcelles.html", label: "Parcelles", key: "parcels", icon: "parcels" },
-      { href: "../pages/stocks.html", label: "Stocks", key: "stocks", icon: "stocks" },
-      { href: "../pages/rentabilite.html", label: "Rentabilité", key: "business", icon: "business" },
+      { href: "../index", label: "Dashboard", key: "dashboard", icon: "dashboard" },
+      { href: "../pages/parcelles", label: "Parcelles", key: "parcels", icon: "parcels" },
+      { href: "../pages/stocks", label: "Stocks", key: "stocks", icon: "stocks" },
+      { href: "../pages/rentabilite", label: "Rentabilité", key: "business", icon: "business" },
     ];
     
     // Ajouter "Visites" uniquement pour les managers
     if (auth && auth.role === "manager") {
-      links.splice(3, 0, { href: "../pages/visits-control.html", label: "Visites", key: "visits", icon: "visits" });
+      links.splice(3, 0, { href: "../pages/visits-control", label: "Visites", key: "visits", icon: "visits" });
     }
     const navLinks = links;
-    const isIndex = location.pathname.replace(/\\/g, "/").toLowerCase().endsWith("/index.html") || location.pathname.endsWith("/") || location.pathname.toLowerCase().endsWith("\\index.html");
+    const isIndex = location.pathname.replace(/\\/g, "/").toLowerCase().endsWith("/index") || location.pathname.endsWith("/") || location.pathname.toLowerCase().endsWith("\\index");
     const adjusted = navLinks.map((l) => (isIndex ? { ...l, href: l.href.replace("../", "") } : l));
 
     const icon = (name) => {

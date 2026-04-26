@@ -146,7 +146,7 @@
               </div>
               <div class="form-actions">
                 <button class="btn" type="submit">Enregistrer</button>
-                <a class="btn secondary" href="{{ asset('index.html') }}  ">Retour Dashboard</a>
+                <a class="btn secondary" href="{{ route('home') }}">Retour Dashboard</a>
               </div>
               <div class="footer-note">Si un stock passe sous le seuil critique, une alerte rouge apparait.</div>
               <div class="form-feedback" id="consumeFeedback" aria-live="polite"></div>

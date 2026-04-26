@@ -16,7 +16,7 @@
           <div class="login-brand">
             <img
               class="login-brand-image"
-              src="file:///C:/Users/LENOVO/.cursor/projects/c-Users-LENOVO-Desktop-two/assets/c__Users_LENOVO_AppData_Roaming_Cursor_User_workspaceStorage_437c9e11065bafda052dbe12c51d2f7a_images_image-f31dabda-a8de-4fe5-9b81-5a747e688d5a.png"
+              src="{{ asset('assets/img/logo.png') }}"
               alt="Logo SeneBI"
             />
           </div>
@@ -38,7 +38,7 @@
 
           <div class="auth-switch">
             <p>Vous êtes un client ?</p>
-            <a href="login-client.html" class="btn secondary">Accès Client</a>
+            <a href="{{ route('login-client') }}" class="btn secondary">Accès Client</a>
           </div>
         </div>
       </section>

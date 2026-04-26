@@ -211,7 +211,7 @@
     // Vérifier l'authentification
     const auth = window.SeneBI?.getAuth?.();
     if (!auth) {
-      window.location.href = './login.html';
+      window.location.href = './login';
       return;
     }
     

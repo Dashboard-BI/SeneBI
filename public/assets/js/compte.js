@@ -117,8 +117,8 @@
     if (back) {
       const home =
         auth.role === "manager"
-          ? "./secure-portal.html"
-          : "./client-dashboard.html";
+          ? "./secure-portal"
+          : "./client-dashboard";
       back.href = home;
     }
 
