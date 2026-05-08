@@ -1,0 +1,207 @@
+/* SeneBI - Filtre par région - Styles additionnels */
+.page-title {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    flex-wrap: wrap;
+    gap: 16px;
+}
+
+.region-selector {
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+    min-width: 180px;
+}
+
+.region-label {
+    font-size: 12px;
+    font-weight: 600;
+    color: var(--muted);
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+}
+
+.region-dropdown {
+    padding: 8px 12px;
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    background: var(--card);
+    color: var(--text);
+    font-size: 14px;
+    font-weight: 500;
+    cursor: pointer;
+    transition: all var(--anim-fast);
+}
+
+.region-dropdown:hover {
+    border-color: var(--accent);
+    box-shadow: 0 0 0 3px var(--accent-muted);
+}
+
+.region-dropdown:focus {
+    outline: none;
+    border-color: var(--accent);
+    box-shadow: 0 0 0 3px var(--accent-muted);
+}
+
+/* Notification de région */
+.region-notification {
+    position: fixed;
+    top: 20px;
+    right: 20px;
+    z-index: 1000;
+    background: var(--card);
+    border: 1px solid var(--border);
+    border-radius: 12px;
+    box-shadow: var(--shadow-lg);
+    transform: translateX(100%);
+    opacity: 0;
+    transition: all var(--anim-med);
+    max-width: 320px;
+}
+
+.region-notification.show {
+    transform: translateX(0);
+    opacity: 1;
+}
+
+.region-notification-content {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    padding: 16px;
+}
+
+.region-icon {
+    font-size: 18px;
+    flex-shrink: 0;
+}
+
+.region-text {
+    flex: 1;
+    font-size: 14px;
+    font-weight: 500;
+    color: var(--text);
+}
+
+.region-close {
+    background: none;
+    border: none;
+    font-size: 16px;
+    color: var(--muted);
+    cursor: pointer;
+    padding: 4px;
+    border-radius: 4px;
+    transition: all var(--anim-fast);
+}
+
+.region-close:hover {
+    background: var(--bg);
+    color: var(--text);
+}
+
+/* Layout pour hero-actions */
+.hero-actions {
+    display: flex;
+    align-items: flex-end;
+    gap: 16px;
+}
+
+.region-selector {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+}
+
+.region-selector .region-label {
+    margin-bottom: 4px;
+    white-space: nowrap;
+}
+
+.region-selector .region-dropdown {
+    min-width: 160px;
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+    .page-title {
+        flex-direction: column;
+        align-items: stretch;
+    }
+
+    .region-selector {
+        align-self: flex-end;
+        min-width: 160px;
+    }
+
+    .region-selector-inline {
+        flex-direction: column;
+        align-items: stretch;
+        gap: 4px;
+    }
+
+    .region-selector-inline .region-label {
+        align-self: flex-start;
+    }
+
+    .region-notification {
+        top: 10px;
+        right: 10px;
+        left: 10px;
+        max-width: none;
+    }
+
+    .region-notification-content {
+        padding: 12px;
+    }
+
+    .region-text {
+        font-size: 13px;
+    }
+}
+
+@media (max-width: 480px) {
+    .page-title {
+        gap: 12px;
+    }
+
+    .region-selector {
+        min-width: 140px;
+    }
+
+    .region-dropdown {
+        padding: 6px 10px;
+        font-size: 13px;
+    }
+}
+
+/* Animation pour les KPIs */
+.kpi-value span {
+    transition: all var(--anim-fast);
+}
+
+.kpi-value.updating {
+    color: var(--accent);
+    transform: scale(1.05);
+}
+
+/* Amélioration visuelle du sélecteur dans le contexte du dashboard */
+.region-dropdown {
+    background: linear-gradient(135deg, var(--card) 0%, rgba(255, 255, 255, 0.9) 100%);
+}
+
+.region-dropdown:hover {
+    background: linear-gradient(135deg, var(--accent-soft) 0%, var(--card) 100%);
+}
+
+/* Thème sombre support */
+@media (prefers-color-scheme: dark) {
+    .region-dropdown {
+        background: linear-gradient(135deg, rgba(255, 255, 255, 0.1) 0%, rgba(255, 255, 255, 0.05) 100%);
+    }
+
+    .region-dropdown:hover {
+        background: linear-gradient(135deg, rgba(5, 150, 105, 0.2) 0%, rgba(255, 255, 255, 0.1) 100%);
+    }
+}

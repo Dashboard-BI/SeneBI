@@ -1,0 +1,458 @@
+.page-title{
+  margin-top: 14px;
+  display:flex;
+  align-items:flex-end;
+  justify-content:space-between;
+  gap: 14px;
+}
+.page-title h1{ margin:0; font-size: 26px; letter-spacing: -0.02em; }
+.page-title p{ margin:6px 0 0; color: rgba(15,23,42,0.6); max-width: 720px; }
+
+.grid{ display:grid; gap: 14px; }
+.cards-3{ grid-template-columns: repeat(3, minmax(0, 1fr)); margin-top: 14px; }
+.cards-2{ grid-template-columns: 1.25fr 1fr; margin-top: 14px; }
+.cards-1{ grid-template-columns: 1fr; margin-top: 14px; }
+
+/* ALIGNEMENT KPI CARDS EN UNE SEULE LIGNE - ÉTAPE 1.1 */
+.kpi-row {
+  display: grid !important;
+  grid-template-columns: repeat(3, 1fr) !important; /* 3 colonnes égales */
+  gap: 20px !important; /* Espacement optimal entre cartes */
+  margin-top: 14px !important;
+}
+
+/* Hauteur égale pour les 3 cartes */
+.kpi-row .kpi-card {
+  height: 100% !important; /* Force hauteur égale */
+  min-height: 120px !important; /* Hauteur minimum pour symétrie */
+  display: flex !important;
+  flex-direction: column !important;
+  justify-content: center !important;
+  align-items: center !important;
+  text-align: center !important;
+}
+
+/* Adaptation mobile - 1 colonne sur téléphone */
+@media (max-width: 768px) {
+  .kpi-row {
+    grid-template-columns: 1fr !important; /* 1 seule colonne mobile */
+    gap: 12px !important; /* Espacement réduit mobile */
+  }
+  
+  .kpi-row .kpi-card {
+    min-height: 100px !important; /* Hauteur réduite mobile */
+  }
+}
+
+/* Style des alertes maintenu - fond rouge léger si > 0 */
+.kpi-row .kpi-card.critical-alert {
+  background: #fff5f5 !important; /* Rouge très léger */
+  border: 1px solid rgba(239, 68, 68, 0.2) !important;
+}
+
+/* ÉTAPE 2 : HARMONISER FORMULAIRE ET TABLEAU */
+
+/* ÉTAPE 2.1 : ALIGNEMENT FINAL ET EFFET TOAST */
+
+/* RETOUR À L'ÉTAT ORIGINAL AVANT ÉTAPE 3 */
+
+/* Style des Inputs - SANS MODIFICATIONS */
+.form#consumeForm input,
+.form#consumeForm select {
+  border-radius: 8px !important;
+  border: 1px solid #e2e8f0 !important;
+  padding: 10px 12px !important;
+  font-size: 14px !important;
+  transition: all 0.3s ease !important;
+  background: #ffffff !important;
+}
+
+.form#consumeForm input:focus,
+.form#consumeForm select:focus {
+  outline: none !important;
+  border-color: #10b981 !important;
+  box-shadow: 0 0 0 3px rgba(16, 185, 129, 0.1) !important;
+}
+
+/* Notification Toast Premium */
+.toast-notification {
+  position: fixed !important;
+  bottom: 30px !important;
+  right: 30px !important;
+  background: linear-gradient(135deg, #10b981, #059669) !important;
+  color: white !important;
+  padding: 16px 24px !important;
+  border-radius: 50px !important; /* Très arrondi */
+  box-shadow: 0 10px 25px -5px rgba(16, 185, 129, 0.4), 0 8px 10px -6px rgba(0, 0, 0, 0.1) !important;
+  font-weight: 600 !important;
+  font-size: 14px !important;
+  z-index: 1000 !important;
+  display: flex !important;
+  align-items: center !important;
+  gap: 12px !important;
+  animation: slideInUp 0.3s ease-out !important;
+  max-width: 400px !important;
+}
+
+/* Icône de coche dans le toast */
+.toast-notification::before {
+  content: "✓" !important;
+  background: white !important;
+  color: #10b981 !important;
+  width: 24px !important;
+  height: 24px !important;
+  border-radius: 50% !important;
+  display: flex !important;
+  align-items: center !important;
+  justify-content: center !important;
+  font-weight: 700 !important;
+  font-size: 14px !important;
+  flex-shrink: 0 !important;
+}
+
+/* Animation du toast */
+@keyframes slideInUp {
+  from {
+    transform: translateY(100%) !important;
+    opacity: 0 !important;
+  }
+  to {
+    transform: translateY(0) !important;
+    opacity: 1 !important;
+  }
+}
+
+/* Espace entre les boutons */
+.form#consumeForm .form-actions {
+  display: flex !important;
+  gap: 20px !important; /* Plus d'espace entre boutons */
+  align-items: center !important;
+  margin-top: 24px !important;
+}
+
+.form#consumeForm .form-actions .btn {
+  margin: 0 !important; /* Reset des marges */
+}
+
+/* ÉTAPE 3 ANNULÉE - RETOUR AU TABLEAU SIMPLE */
+
+/* Aération du Tableau - Padding augmenté */
+.table {
+  border-collapse: separate !important;
+  border-spacing: 0 !important;
+}
+
+.table th,
+.table td {
+  padding: 16px 12px !important; /* Augmenté pour aération */
+  border-bottom: 1px solid #e5e7eb !important;
+  vertical-align: middle !important;
+  transition: background-color 0.2s ease !important; /* Transition pour hover */
+}
+
+.table th {
+  background: #f8fafc !important;
+  font-weight: 700 !important;
+  color: #1f2937 !important;
+  font-size: 13px !important;
+  text-transform: uppercase !important;
+  letter-spacing: 0.5px !important;
+}
+
+/* Tableau simple - pas de hover, pas de badges personnalisés */
+
+/* Bouton Enregistrer - Call to Action avec icône */
+.form#consumeForm .btn[type="submit"] {
+  background: linear-gradient(135deg, #10b981, #059669) !important;
+  color: white !important;
+  border: none !important;
+  padding: 12px 24px !important;
+  border-radius: 8px !important;
+  font-weight: 700 !important;
+  font-size: 14px !important;
+  cursor: pointer !important;
+  transition: all 0.3s ease !important;
+  box-shadow: 0 4px 6px -1px rgba(16, 185, 129, 0.3) !important;
+  display: flex !important;
+  align-items: center !important;
+  gap: 8px !important;
+}
+
+.form#consumeForm .btn[type="submit"]:hover {
+  background: linear-gradient(135deg, #059669, #047857) !important; /* Plus foncé */
+  transform: translateY(-2px) !important; /* S'élève de 2px */
+  box-shadow: 0 10px 20px -1px rgba(16, 185, 129, 0.4) !important; /* Ombre augmentée */
+}
+
+.form#consumeForm .btn[type="submit"]:active {
+  transform: translateY(0) !important;
+  box-shadow: 0 2px 4px -1px rgba(16, 185, 129, 0.3) !important;
+}
+
+/* Bouton Retour - Style secondaire avec icône */
+.form#consumeForm .btn.secondary {
+  background: #f8fafc !important;
+  color: #64748b !important;
+  border: 1px solid #e2e8f0 !important;
+  padding: 12px 24px !important;
+  border-radius: 8px !important;
+  font-weight: 600 !important;
+  transition: all 0.3s ease !important;
+  display: flex !important;
+  align-items: center !important;
+  gap: 8px !important;
+}
+
+.form#consumeForm .btn.secondary:hover {
+  background: #f1f5f9 !important; /* Gris très clair */
+  border-color: #cbd5e1 !important;
+  color: #475569 !important;
+  transform: translateY(-1px) !important; /* Léger effet hover */
+}
+
+.card{
+  background: var(--card);
+  border: 1px solid rgba(15,23,42,0.08);
+  border-radius: var(--radius);
+  box-shadow: var(--shadow);
+  padding: 16px;
+}
+.card-header{ display:flex; align-items:flex-start; justify-content:space-between; gap:10px; margin-bottom: 10px; }
+.tag{
+  display:inline-flex; align-items:center; gap:8px;
+  padding: 8px 10px; border-radius: 999px;
+  font-weight: 800; font-size: 12px;
+  border: 1px solid rgba(15,23,42,0.08);
+  background:#fff;
+}
+.tag.muted{ color:#334155; background:#f1f5f9; }
+.tag.warn{ color:#7c2d12; background:#ffedd5; border-color: rgba(245,158,11,0.25); }
+
+/* ÉTAPE 3 : VISUALISATION DYNAMIQUE DES STOCKS - UNIQUEMENT SUR LE TABLEAU */
+
+/* Barres de progression discrètes dans Stock Actuel */
+.stock-progress-bar {
+  height: 5px;
+  background: #e5e7eb;
+  border-radius: 3px;
+  margin-top: 4px;
+  overflow: hidden;
+  width: 100%;
+}
+
+.stock-progress-fill {
+  height: 100%;
+  border-radius: 3px;
+  transition: width 0.3s ease;
+}
+
+.stock-progress-fill.ok {
+  background: #86efac; /* Vert pastel très clair */
+}
+
+.stock-progress-fill.critical {
+  background: #fca5a5; /* Rouge pastel très clair */
+}
+
+/* Badges style pilule avec couleurs pastel */
+.table td .badge {
+  border-radius: 20px !important;
+  padding: 6px 12px !important;
+  font-size: 11px !important;
+  font-weight: 600 !important;
+  border: none !important;
+}
+
+.table td .badge.ok {
+  background: #dcfce7 !important; /* Vert pastel très clair */
+  color: #166534 !important; /* Vert foncé pour contraste */
+}
+
+.table td .badge.critical {
+  background: #fef2f2 !important; /* Rouge pastel très clair */
+  color: #991b1b !important; /* Rouge foncé pour contraste */
+}
+
+/* Nettoyage du Coût - FCFA en opacité réduite */
+.cost-amount {
+  font-weight: 600;
+  color: #1f2937;
+}
+
+.cost-currency {
+  opacity: 0.6;
+  font-weight: 400;
+  margin-left: 4px;
+}
+
+/* Effet hover sur les lignes du tableau */
+.table tbody tr:hover {
+  background: #fcfcfc !important; /* Gris perle très léger */
+  transition: background 0.2s ease;
+}
+.tag.danger{ color:#7f1d1d; background:#fee2e2; border-color: rgba(239,68,68,0.25); }
+.tag.good{ color:#14532d; background:#dcfce7; border-color: rgba(22,163,74,0.25); }
+
+.alert-banner{
+  display:none;
+  margin-top: 14px;
+  padding: 18px;
+  border-radius: 16px;
+  border: 1px solid rgba(239, 68, 68, 0.25);
+  background: #fff5f5;
+  color: #7f1d1d;
+}
+.alert-banner.show{ display:block; }
+.alert-main{ display:flex; gap:14px; align-items:flex-start; }
+.alert-main h3{ margin:0; font-size: 16px; letter-spacing:0; font-weight: 900; }
+.alert-main p{ margin:6px 0 10px; font-size: 14px; font-weight: 700; color:#991b1b; }
+.alert-icon{
+  width:48px; height:48px; border-radius:12px; flex-shrink:0;
+  display:inline-flex; align-items:center; justify-content:center;
+  background:#ff1d3f; color:#fff; font-weight:900; font-size:22px;
+}
+.alert-chip{
+  display:inline-flex; align-items:center; gap:8px;
+  border:1px solid rgba(239,68,68,0.2); background:#fff;
+  border-radius:10px; padding:10px 12px; font-weight:800;
+}
+
+.kpi-row{ grid-template-columns: repeat(2, minmax(0, 1fr)); }
+.stocks-extra-row{ margin-top: 14px; }
+
+.stock-gauge-card .section-title{ margin-bottom: 4px; }
+
+.gauge-chart-wrap{
+  position: relative;
+  height: 200px;
+  margin-top: 8px;
+  max-width: 320px;
+  margin-left: auto;
+  margin-right: auto;
+}
+.gauge-chart-wrap canvas{ display: block; }
+.gauge-center-label{
+  position: absolute;
+  left: 50%;
+  bottom: 18%;
+  transform: translateX(-50%);
+  font-size: 28px;
+  font-weight: 900;
+  letter-spacing: -0.03em;
+  color: #0f172a;
+  pointer-events: none;
+}
+
+.table-compact th,
+.table-compact td{ padding: 8px 6px; font-size: 12px; }
+.top-consumers-table{ margin-top: 10px; }
+.top-consumers-fallback{ margin-top: 8px; font-style: italic; }
+/* MODERNISATION KPI CARDS - ÉTAPE 1 - FORCÉ */
+.kpi-card .kpi-title{ 
+  font-size: 14px !important; 
+  font-weight: 700 !important; 
+  margin:0 !important; 
+  color: rgba(15,23,42,0.85) !important; /* Plus foncé pour meilleure hiérarchie */
+}
+
+.kpi-card .kpi-value{ 
+  font-size: 30px !important; 
+  font-weight: 900 !important; 
+  margin: 12px 0 8px !important; /* Plus d'espace vertical */
+  letter-spacing:-0.02em !important; 
+}
+
+/* Valeur Totale du Stock en vert foncé - FORCÉ */
+.kpi-card .kpi-value.valeur-stock {
+  font-size: 36px !important; /* Plus grand */
+  color: #1b4332 !important; /* Vert foncé pour succès financier */
+  font-weight: 900 !important;
+}
+
+/* Alerte Critique Dynamique - fond rouge pâle si > 0 - FORCÉ */
+.kpi-card.critical-alert {
+  background: #fff5f5 !important; /* Rouge très pâle */
+  border: 1px solid rgba(239, 68, 68, 0.2) !important;
+}
+
+.kpi-card.critical-alert .kpi-value {
+  color: #ef4444 !important; /* Rouge vif */
+  font-weight: 900 !important;
+}
+
+/* Ombres douces modernes - remplacement des bordures - FORCÉ */
+.kpi-card {
+  background: var(--card) !important;
+  border: none !important; /* Supprimer les bordures grises */
+  border-radius: var(--radius) !important;
+  box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1) !important; /* Ombre très légère */
+  padding: 20px !important; /* Plus de padding pour look moderne */
+}
+
+/* SOUS-TITRES SUPPRIMÉS - Plus d'affichage - FORCÉ */
+.kpi-card .kpi-sub {
+  display: none !important; /* Supprimer complètement les sous-titres gris */
+}
+
+.section-title{ margin:0; font-size: 16px; font-weight: 900; }
+.chart-wrap{ height: 320px; margin-top: 10px; }
+
+.table{ width:100%; border-collapse: collapse; font-size: 13px; }
+.table th, .table td{ padding: 10px 8px; border-bottom: 1px solid rgba(15,23,42,0.08); text-align:left; }
+.table th{ color: rgba(15,23,42,0.55); font-weight: 900; font-size: 12px; }
+.table-large th{ background: #f5f7fb; border-bottom: none; font-size: 12px; color:#0f172a; padding:10px 8px; }
+.table-large td{ padding:10px 8px; font-size: 13px; }
+.stock-type{
+  display:inline-flex; align-items:center;
+  background:#f1f5f9; border-radius:999px; padding:5px 10px; font-size:12px;
+}
+.status-ok{ color:#08a046; font-weight:900; }
+.status-bad{ color:#e11d48; font-weight:900; }
+
+.history-list{ display:grid; gap:12px; margin-top: 8px; }
+.history-item{
+  border:1px solid rgba(15,23,42,0.08); border-radius:12px; padding:14px 12px;
+  display:flex; justify-content:space-between; align-items:center;
+}
+.history-item .left strong{ display:block; font-size:16px; font-weight: 900; }
+.history-item .left span{ color: rgba(15,23,42,0.55); }
+.history-item .right{ text-align:right; }
+.history-item .right strong{ font-size:16px; font-weight: 900; }
+.history-item .right span{ color: rgba(15,23,42,0.55); }
+
+.form{ display:grid; gap: 10px; }
+.form-row{ display:grid; gap: 10px; grid-template-columns: 1fr 1fr; }
+.form-actions{ display:flex; gap: 10px; flex-wrap: wrap; }
+
+.btn{
+  border:0;
+  border-radius: 12px;
+  padding: 10px 12px;
+  cursor:pointer;
+  font-weight:800;
+  background: #0b1220;
+  color:#fff;
+  font-size: 14px;
+}
+.btn.secondary{ background: #eef2ff; color: #312e81; }
+.btn.danger{ background: #fee2e2; color: #991b1b; }
+
+.footer-note{ margin-top: 14px; color: rgba(15,23,42,0.55); font-size: 12px; }
+.form-feedback{
+  min-height: 20px;
+  font-size: 12px;
+  font-weight: 800;
+  color: #475569;
+}
+.form-feedback.error{ color: #b91c1c; }
+.form-feedback.success{ color: #166534; }
+
+@media (max-width: 1100px){
+  .cards-3{ grid-template-columns: 1fr; }
+  .cards-2{ grid-template-columns: 1fr; }
+  .stocks-extra-row{ grid-template-columns: 1fr; }
+  .kpi-row{ grid-template-columns: 1fr; }
+  .table-large td{ font-size:13px; }
+  .alert-main h3{ font-size: 18px; }
+}
+
