@@ -9,7 +9,8 @@ use App\Models\Recolte;
 use App\Models\Visite;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
-use Illuminate\Support\Facades\Schema;
+use Illuminate\Support\Facades\DB; // Ajouté pour DB::raw plus bas
+use Carbon\Carbon; // Ajouté pour sécuriser les comparaisons de dates
 
 class DashboardController extends Controller
 {
@@ -53,8 +54,8 @@ class DashboardController extends Controller
             ->take(5)
             ->get();
 
-        // Production par culture
-        $productionParCulture = Recolte::select('culture', \Illuminate\Support\Facades\DB::raw('SUM(quantite) as total_quantite'))
+        // Production par culture (Simplifié grâce à l'import de DB en haut)
+        $productionParCulture = Recolte::select('culture', DB::raw('SUM(quantite) as total_quantite'))
             ->groupBy('culture')
             ->orderByDesc('total_quantite')
             ->get();
@@ -125,8 +126,10 @@ class DashboardController extends Controller
                 $criticalStocks = $client->stocks->where('quantite_actuelle', '<=', 'seuil_critique')->count();
                 $totalBenefice = $client->recoltes->sum('benefice_net');
                 $isLowProfitability = $totalBenefice < 0;
+                
                 $lastVisit = $client->visites->sortByDesc('date_visite')->first();
-                $isInactive = $lastVisit ? $lastVisit->date_visite->lt(now()->subMonths(2)) : true;
+                // Sécurisé avec Carbon::parse pour éviter le crash si date_visite est lue comme un string
+                $isInactive = $lastVisit ? Carbon::parse($lastVisit->date_visite)->lt(now()->subMonths(2)) : true;
 
                 return $criticalStocks > 0 || $isLowProfitability || $isInactive;
             })
@@ -141,7 +144,9 @@ class DashboardController extends Controller
                     $risks[] = 'faible_rentabilite';
                 }
                 $lastVisit = $client->visites->sortByDesc('date_visite')->first();
-                if (!$lastVisit || $lastVisit->date_visite->lt(now()->subMonths(2))) {
+                
+                // Sécurisé avec Carbon::parse
+                if (!$lastVisit || Carbon::parse($lastVisit->date_visite)->lt(now()->subMonths(2))) {
                     $risks[] = 'faible_activite';
                 }
 
@@ -151,7 +156,8 @@ class DashboardController extends Controller
                     'location' => $client->location ?? 'Non spécifié',
                     'risks' => $risks,
                     'critical_stocks' => $criticalStocks,
-                    'last_visit' => $lastVisit ? $lastVisit->date_visite->format('d/m/Y') : 'Jamais',
+                    // Formatage sécurisé
+                    'last_visit' => $lastVisit ? Carbon::parse($lastVisit->date_visite)->format('d/m/Y') : 'Jamais',
                 ];
             })
             ->values();
@@ -220,7 +226,7 @@ class DashboardController extends Controller
                 ->count();
                 
             $regionCultures = Recolte::whereHas('parcelle', fn($q) => $q->where('region', $name))
-                ->select('culture', \Illuminate\Support\Facades\DB::raw('SUM(quantite) as total_quantite'))
+                ->select('culture', DB::raw('SUM(quantite) as total_quantite'))
                 ->groupBy('culture')
                 ->get()
                 ->map(fn($row) => [
